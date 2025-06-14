@@ -83,7 +83,7 @@ module.exports = defineConfig({
     },
     experiments: {
         asyncWebAssembly: true,
-        css: true,
+        css: false,
     },
     devServer: {
         static: {
