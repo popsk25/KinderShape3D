@@ -2,11 +2,14 @@ const path = require("path");
 const { defineConfig } = require("@rspack/cli");
 const HtmlRspackPlugin = require("html-rspack-plugin");
 const rspack = require("@rspack/core");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = defineConfig({
     mode: "development",
     entry: {
         main: "./packages/chili-web/src/index.ts",
+        iconfont: "./public/iconfont.js",
+        styles: "./public/index.css",
     },
     output: {
         path: path.resolve(__dirname, "dist"),
@@ -39,9 +42,13 @@ module.exports = defineConfig({
                 exclude: /node_modules/,
             },
             {
-                test: /\.css$/,
+                test: /\.module\.css$/,
                 type: "css/module",
-                use: ["css-loader"],
+                use: [MiniCssExtractPlugin.loader, "css-loader"],
+            },
+            {
+                test: /(?<!\.module)\.css$/,
+                use: [MiniCssExtractPlugin.loader, "css-loader"],
             },
             {
                 test: /\.(png|jpg|gif|svg|cur)$/,
@@ -83,11 +90,12 @@ module.exports = defineConfig({
                 {
                     from: "./public",
                     globOptions: {
-                        ignore: ["**/**/index.html"],
+                        ignore: ["**/**/index.html", "**/**/index.css", "**/**/iconfont.js"],
                     },
                 },
             ],
         }),
+        new MiniCssExtractPlugin(),
     ],
     devtool: "source-map",
 });
