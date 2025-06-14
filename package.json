@@ -28,6 +28,7 @@
         "@rspack/cli": "1.0.5",
         "@rspack/core": "1.0.5",
         "@types/jest": "29.5.13",
+        "clean-webpack-plugin": "^4.0.0",
         "compression-webpack-plugin": "^11.1.0",
         "copy-webpack-plugin": "^13.0.0",
         "css-loader": "^7.1.2",
