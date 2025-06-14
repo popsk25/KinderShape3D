@@ -2,6 +2,7 @@ const path = require("path");
 const { defineConfig } = require("@rspack/cli");
 const HtmlRspackPlugin = require("html-rspack-plugin");
 const rspack = require("@rspack/core");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = defineConfig({
     mode: "development",
@@ -97,6 +98,7 @@ module.exports = defineConfig({
             ],
         }),
         new rspack.CssExtractRspackPlugin({}),
+        new CleanWebpackPlugin(),
     ],
     devtool: "source-map",
 });
