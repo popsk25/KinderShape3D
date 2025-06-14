@@ -1,6 +1,6 @@
 const path = require("path");
 const { defineConfig } = require("@rspack/cli");
-const HtmlRspackPlugin = require("@rspack/plugin-html");
+const HtmlRspackPlugin = require("html-rspack-plugin");
 
 module.exports = defineConfig({
     mode: "development",
