@@ -77,7 +77,7 @@ module.exports = defineConfig({
             directory: path.join(__dirname, "dist"),
         },
         compress: true,
-        port: 3000,
+        port: 3001,
         host: "0.0.0.0",
         hot: true,
         historyApiFallback: true,
