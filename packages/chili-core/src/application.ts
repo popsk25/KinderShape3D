@@ -10,6 +10,15 @@ import { IShapeFactory } from "./shape";
 import { IWindow } from "./ui/window";
 import { IView, IVisualFactory } from "./visual";
 
+export interface ApplicationOptions {
+    visualFactory: IVisualFactory;
+    shapeFactory: IShapeFactory;
+    services: IService[];
+    storage: IStorage;
+    dataExchange: IDataExchange;
+    mainWindow?: IWindow;
+}
+
 export interface IApplication {
     readonly mainWindow?: IWindow;
     readonly dataExchange: IDataExchange;

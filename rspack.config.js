@@ -1,102 +1,73 @@
-const rspack = require("@rspack/core");
+const path = require("path");
 const { defineConfig } = require("@rspack/cli");
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
-const settings = require("./settings.json");
 
-const config = defineConfig({
+module.exports = defineConfig({
+    mode: "development",
     entry: {
         main: "./packages/chili-web/src/index.ts",
     },
-    devServer: {
-        port: 3000,
-        hot: true,
-        headers: {
-            "Cross-Origin-Embedder-Policy": "require-corp",
-            "Cross-Origin-Opener-Policy": "same-origin",
-        },
-    },
-    experiments: {
-        css: true,
+    output: {
+        path: path.resolve(__dirname, "dist"),
+        filename: "[name].js",
+        publicPath: "/",
     },
     module: {
-        parser: {
-            "css/auto": {
-                namedExports: false,
-            },
-        },
         rules: [
             {
-                test: /\.wasm$/,
-                type: "asset",
-            },
-            {
-                test: /\.cur$/,
-                type: "asset",
-            },
-            {
-                test: /\.jpg$/,
-                type: "asset",
-            },
-            {
-                test: /\.(j|t)s$/,
-                loader: "builtin:swc-loader",
-                options: {
-                    jsc: {
-                        parser: {
-                            syntax: "typescript",
-                            decorators: true,
+                test: /\.tsx?$/,
+                use: {
+                    loader: "builtin:swc-loader",
+                    options: {
+                        sourceMap: true,
+                        jsc: {
+                            parser: {
+                                syntax: "typescript",
+                                tsx: true,
+                            },
+                            transform: {
+                                react: {
+                                    runtime: "automatic",
+                                },
+                            },
                         },
-                        target: "esnext",
                     },
                 },
+                exclude: /node_modules/,
+            },
+            {
+                test: /\.css$/,
+                type: "css/module",
+                use: ["css-loader"],
+            },
+            {
+                test: /\.(png|jpg|gif|svg)$/,
+                type: "asset/resource",
+            },
+            {
+                test: /\.wasm$/,
+                type: "asset/resource",
             },
         ],
     },
     resolve: {
-        extensions: [".ts", ".js"],
-        fallback: {
-            fs: false,
-            perf_hooks: false,
-            os: false,
-            crypto: false,
-            stream: false,
-            path: false,
+        extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".css"],
+        alias: {
+            "@chili/core": path.resolve(__dirname, "packages/chili-core/src"),
+            "@chili/ui": path.resolve(__dirname, "packages/chili-ui/src"),
+            "@chili/builder": path.resolve(__dirname, "packages/chili-builder/src"),
         },
     },
-    plugins: [
-        new ForkTsCheckerWebpackPlugin(),
-        new rspack.CopyRspackPlugin({
-            patterns: [
-                {
-                    from: "./public",
-                    globOptions: {
-                        ignore: ["**/**/index.html"],
-                    },
-                },
-            ],
-        }),
-        new rspack.DefinePlugin({
-            __APP_VERSION__: JSON.stringify(require("./package.json").version),
-            __DOCUMENT_VERSION__: JSON.stringify(settings.documentVersion),
-        }),
-        new rspack.HtmlRspackPlugin({
-            template: "./public/index.html",
-            inject: "body",
-        }),
-    ],
-    optimization: {
-        minimizer: [
-            new rspack.SwcJsMinimizerRspackPlugin({
-                minimizerOptions: {
-                    mangle: {
-                        keep_classnames: true,
-                        keep_fnames: true,
-                    },
-                },
-            }),
-            new rspack.LightningCssMinimizerRspackPlugin(),
-        ],
+    experiments: {
+        asyncWebAssembly: true,
     },
+    devServer: {
+        static: {
+            directory: path.join(__dirname, "dist"),
+        },
+        compress: true,
+        port: 3000,
+        hot: true,
+        historyApiFallback: true,
+    },
+    devtool: "source-map",
 });
-
-module.exports = config;
