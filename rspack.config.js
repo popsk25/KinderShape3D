@@ -113,6 +113,7 @@ module.exports = defineConfig({
         new CleanWebpackPlugin(),
         new rspack.DefinePlugin({
             __DOCUMENT_VERSION__: JSON.stringify(packageJson.version),
+            __APP_VERSION__: JSON.stringify(packageJson.version),
         }),
     ],
     devtool: "source-map",
