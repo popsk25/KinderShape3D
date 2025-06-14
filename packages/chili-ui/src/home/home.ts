@@ -172,7 +172,6 @@ export class Home extends HTMLElement {
             ),
             LanguageSelector({ className: style.language }),
         );
-        document.body.appendChild(this);
     }
 }
 

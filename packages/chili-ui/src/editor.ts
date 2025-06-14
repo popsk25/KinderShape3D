@@ -40,7 +40,6 @@ export class Editor extends HTMLElement {
                 new Statusbar(style.statusbar),
             ),
         );
-        document.body.appendChild(this);
     }
 
     registerRibbonCommand(tabName: I18nKeys, groupName: I18nKeys, command: CommandKeys | Button) {

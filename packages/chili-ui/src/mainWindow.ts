@@ -22,8 +22,10 @@ export class MainWindow implements IWindow {
     private _inited: boolean = false;
     private _home?: Home;
     private _editor?: Editor;
+    private _rootElement: HTMLElement;
 
     constructor(readonly tabs: RibbonTab[]) {
+        this._rootElement = document.getElementById("root")!;
         this.setTheme("light");
     }
 
@@ -48,22 +50,30 @@ export class MainWindow implements IWindow {
     }
 
     private displayHome = (app: IApplication, displayHome: boolean) => {
-        if (this._home) {
-            this._home.remove();
-            this._home = undefined;
-        }
         if (displayHome) {
+            if (this._editor) {
+                this._rootElement.removeChild(this._editor);
+            }
+            this._editor = undefined;
             this._initHome(app);
+        } else {
+            if (this._home) {
+                this._rootElement.removeChild(this._home);
+            }
+            this._home = undefined;
+            this._initEditor(app);
         }
     };
 
     private async _initHome(app: IApplication) {
         this._home = new Home(app);
         await this._home.render();
+        this._rootElement.appendChild(this._home);
     }
 
     private async _initEditor(app: IApplication) {
         this._editor = new Editor(app, this.tabs);
+        this._rootElement.appendChild(this._editor);
     }
 
     registerHomeCommand(groupName: I18nKeys, command: CommandKeys | Button): void {
