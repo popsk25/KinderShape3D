@@ -99,6 +99,9 @@ module.exports = defineConfig({
         }),
         new rspack.CssExtractRspackPlugin({}),
         new CleanWebpackPlugin(),
+        new rspack.DefinePlugin({
+            __DOCUMENT_VERSION__: JSON.stringify(process.env.npm_package_version),
+        }),
     ],
     devtool: "source-map",
 });
