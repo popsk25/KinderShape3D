@@ -51,7 +51,7 @@ module.exports = defineConfig({
                         loader: "css-loader",
                         options: {
                             modules: {
-                                namedExport: false,
+                                esModule: true,
                             },
                         },
                     },
@@ -82,7 +82,7 @@ module.exports = defineConfig({
     },
     experiments: {
         asyncWebAssembly: true,
-        css: false,
+        css: true,
     },
     devServer: {
         static: {
