@@ -45,7 +45,18 @@ module.exports = defineConfig({
             {
                 test: /\.module\.css$/,
                 type: "javascript/auto",
-                use: [rspack.CssExtractRspackPlugin.loader, "css-loader"],
+                use: [
+                    rspack.CssExtractRspackPlugin.loader,
+                    {
+                        loader: "css-loader",
+                        options: {
+                            modules: {
+                                localIdentName: "[name]__[local]--[hash:base64:5]",
+                            },
+                            importLoaders: 1,
+                        },
+                    },
+                ],
             },
             {
                 test: /(?<!\.module)\.css$/,
