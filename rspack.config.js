@@ -1,5 +1,6 @@
 const path = require("path");
 const { defineConfig } = require("@rspack/cli");
+const HtmlRspackPlugin = require("@rspack/plugin-html");
 
 module.exports = defineConfig({
     mode: "development",
@@ -72,5 +73,10 @@ module.exports = defineConfig({
         hot: true,
         historyApiFallback: true,
     },
+    plugins: [
+        new HtmlRspackPlugin({
+            template: "./public/index.html",
+        }),
+    ],
     devtool: "source-map",
 });
