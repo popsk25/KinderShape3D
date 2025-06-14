@@ -51,10 +51,8 @@ module.exports = defineConfig({
                         loader: "css-loader",
                         options: {
                             modules: {
-                                localIdentName: "[name]__[local]--[hash:base64:5]",
                                 namedExport: false,
                             },
-                            importLoaders: 1,
                         },
                     },
                 ],
