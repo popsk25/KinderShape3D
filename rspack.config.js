@@ -46,7 +46,7 @@ module.exports = defineConfig({
                 test: /\.module\.css$/,
                 type: "javascript/auto",
                 use: [
-                    rspack.CssExtractRspackPlugin.loader,
+                    "style-loader",
                     {
                         loader: "css-loader",
                         options: {
@@ -61,7 +61,7 @@ module.exports = defineConfig({
             {
                 test: /(?<!\.module)\.css$/,
                 type: "javascript/auto",
-                use: [rspack.CssExtractRspackPlugin.loader, "css-loader"],
+                use: ["style-loader", "css-loader"],
             },
             {
                 test: /\.(png|jpg|gif|svg|cur)$/,
@@ -109,7 +109,6 @@ module.exports = defineConfig({
                 },
             ],
         }),
-        new rspack.CssExtractRspackPlugin({}),
         new CleanWebpackPlugin(),
         new rspack.DefinePlugin({
             __DOCUMENT_VERSION__: JSON.stringify(packageJson.version),
