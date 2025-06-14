@@ -3,6 +3,7 @@ const { defineConfig } = require("@rspack/cli");
 const HtmlRspackPlugin = require("html-rspack-plugin");
 const rspack = require("@rspack/core");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const packageJson = require("./package.json");
 
 module.exports = defineConfig({
     mode: "development",
@@ -100,7 +101,7 @@ module.exports = defineConfig({
         new rspack.CssExtractRspackPlugin({}),
         new CleanWebpackPlugin(),
         new rspack.DefinePlugin({
-            __DOCUMENT_VERSION__: JSON.stringify(process.env.npm_package_version),
+            __DOCUMENT_VERSION__: JSON.stringify(packageJson.version),
         }),
     ],
     devtool: "source-map",
