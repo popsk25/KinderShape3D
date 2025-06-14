@@ -23,7 +23,9 @@ module.exports = defineConfig({
                             parser: {
                                 syntax: "typescript",
                                 tsx: true,
+                                decorators: true,
                             },
+                            target: "es2020",
                             transform: {
                                 react: {
                                     runtime: "automatic",
@@ -40,7 +42,7 @@ module.exports = defineConfig({
                 use: ["css-loader"],
             },
             {
-                test: /\.(png|jpg|gif|svg)$/,
+                test: /\.(png|jpg|gif|svg|cur)$/,
                 type: "asset/resource",
             },
             {
