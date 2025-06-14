@@ -1,6 +1,7 @@
 const path = require("path");
 const { defineConfig } = require("@rspack/cli");
 const HtmlRspackPlugin = require("html-rspack-plugin");
+const rspack = require("@rspack/core");
 
 module.exports = defineConfig({
     mode: "development",
@@ -76,6 +77,16 @@ module.exports = defineConfig({
     plugins: [
         new HtmlRspackPlugin({
             template: "./public/index.html",
+        }),
+        new rspack.CopyRspackPlugin({
+            patterns: [
+                {
+                    from: "./public",
+                    globOptions: {
+                        ignore: ["**/**/index.html"],
+                    },
+                },
+            ],
         }),
     ],
     devtool: "source-map",
