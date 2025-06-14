@@ -2,7 +2,6 @@ const path = require("path");
 const { defineConfig } = require("@rspack/cli");
 const HtmlRspackPlugin = require("html-rspack-plugin");
 const rspack = require("@rspack/core");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = defineConfig({
     mode: "development",
@@ -43,12 +42,13 @@ module.exports = defineConfig({
             },
             {
                 test: /\.module\.css$/,
-                type: "css/module",
-                use: [MiniCssExtractPlugin.loader, "css-loader"],
+                type: "javascript/auto",
+                use: [rspack.CssExtractRspackPlugin.loader, "css-loader"],
             },
             {
                 test: /(?<!\.module)\.css$/,
-                use: [MiniCssExtractPlugin.loader, "css-loader"],
+                type: "javascript/auto",
+                use: [rspack.CssExtractRspackPlugin.loader, "css-loader"],
             },
             {
                 test: /\.(png|jpg|gif|svg|cur)$/,
@@ -96,7 +96,7 @@ module.exports = defineConfig({
                 },
             ],
         }),
-        new MiniCssExtractPlugin(),
+        new rspack.CssExtractRspackPlugin({}),
     ],
     devtool: "source-map",
 });
