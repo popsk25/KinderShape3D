@@ -61,6 +61,7 @@ module.exports = defineConfig({
     },
     experiments: {
         asyncWebAssembly: true,
+        css: true,
     },
     devServer: {
         static: {
