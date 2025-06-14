@@ -44,23 +44,11 @@ module.exports = defineConfig({
             },
             {
                 test: /\.module\.css$/,
-                type: "javascript/auto",
-                use: [
-                    rspack.CssExtractRspackPlugin.loader,
-                    {
-                        loader: "css-loader",
-                        options: {
-                            modules: {
-                                esModule: true,
-                            },
-                        },
-                    },
-                ],
+                type: "css/module",
             },
             {
                 test: /(?<!\.module)\.css$/,
-                type: "javascript/auto",
-                use: [rspack.CssExtractRspackPlugin.loader, "css-loader"],
+                type: "css",
             },
             {
                 test: /\.(png|jpg|gif|svg|cur)$/,
@@ -71,6 +59,11 @@ module.exports = defineConfig({
                 type: "asset/resource",
             },
         ],
+        parser: {
+            css: { namedExports: false },
+            "css/auto": { namedExports: false },
+            "css/module": { namedExports: false },
+        },
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".css"],
@@ -108,7 +101,6 @@ module.exports = defineConfig({
                 },
             ],
         }),
-        new rspack.CssExtractRspackPlugin({}),
         new CleanWebpackPlugin(),
         new rspack.DefinePlugin({
             __DOCUMENT_VERSION__: JSON.stringify(packageJson.version),
